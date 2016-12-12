@@ -4,7 +4,7 @@ myfile = open('catcher_in_the_rye.txt', 'r')
 text = myfile.read()
 
 text = text.replace(',', ' ').replace('-', ' ').replace('"', ' ').replace('*', ' ').replace('@', ' ').replace('#', ' ').replace('%', ' ').replace('^', ' ').replace('&', ' and ').replace('*', ' ').replace('(', ' ').replace(')', ' ')
-text = text.replace('Mr.', 'Mr ').replace('Mrs.', 'Ms ').replace('Ms.', 'Ms ').replace('D.B.', 'DB ')
+text = text.replace('Mr.', 'Mr ').replace('Mrs.', 'Ms ').replace('Ms.', 'Ms ').replace('D.B.', 'DB ').replace('M.A', 'MA').replace('Ph.D', 'PhD')
 text = ' '.join(text.split())
 
 print(text)

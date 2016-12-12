@@ -3,11 +3,11 @@ import sys
 
 #sys.setdefaultencoding('utf-8')
 
-pdfFileObj = open('mypdf.pdf', 'rb')
+pdfFileObj = open('franny_and_zooey.pdf', 'rb')
 pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
 numPages = pdfReader.numPages
 
-myTxt = open('catcher_in_the_rye.txt', 'w')
+myTxt = open('franny_and_zooey.txt', 'w')
 
 fullTxt = ""
 
@@ -15,7 +15,7 @@ for i in range(0, numPages):
     pageObj = pdfReader.getPage(i)
     pageText = pageObj.extractText()
 
-    pageText = pageText.replace('\n', ' ')
+    pageText = pageText.replace('\n', '')
 
     wow = ' '.join(pageText.split())
 
