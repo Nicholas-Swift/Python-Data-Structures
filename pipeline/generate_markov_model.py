@@ -12,10 +12,8 @@ def create_model(iterable):
         previousWord = None
         for index, word in enumerate(sentence):
 
-            print(word)
-
             # Check if word is in model, if not, create new dictogram
-            if word not in model:
+            if (previousWord, word) not in model:
                 model[(previousWord, word)] = DictionaryHistogram()
 
             # Check if word is end or start
@@ -33,11 +31,6 @@ def create_model(iterable):
 
 def walk_markov_chain(model):
     words = []
-
-    for key, value in model.items():
-        print("Key: ", key)
-        print("Value: ", value)
-        print("\n\n")
 
     previousWord = None
     word = (None, "*START*")
