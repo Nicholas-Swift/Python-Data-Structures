@@ -7,16 +7,20 @@ def read_file():
     return text
 
 def sanitize_text(text):
-    new_text = text.replace(',', ' ').replace('-', ' ').replace('"', ' ').replace('*', ' ').replace('@', ' ').replace('#', ' ').replace('%', ' ').replace('^', ' ').replace('&', ' and ').replace('*', ' ').replace('(', ' ').replace(')', ' ').replace('Š', ' ')
+    chars_to_delete = ',-"*@#%^()'
 
-    new_text = text.replace('Mr.', 'Mr ').replace('Mrs.', 'Ms ').replace('Ms.', 'Ms ').replace('D.B.', 'DB ')
+    new_text = text
+    for char in chars_to_delete:
+        new_text = new_text.replace(char, ' ')
 
-    new_text = ' '.join(text.split())
+    new_text = new_text.replace('Mr.', 'Mr ').replace('Mrs.', 'Ms ').replace('Ms.', 'Ms ').replace('D.B.', 'DB ').replace('Dr.', 'Dr ')
+
+    new_text = ' '.join(new_text.split())
 
     return new_text
 
 def get_sentences(text):
-    sentenceRegex = re.compile("[^.](.*?)[!.;]")
+    sentenceRegex = re.compile("[^.](.*?)[!.;?]")
     matches = sentenceRegex.findall(text)
 
     sentences = []
