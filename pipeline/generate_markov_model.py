@@ -2,46 +2,69 @@ import clean_up_text
 import tokenize_text
 from dictionary_histogram import DictionaryHistogram
 
-def create_model(iterable):
+def create_model(iterable, num):
 
+    # Create empty model
     model = {}
-    model[(None, "*START*")] = DictionaryHistogram()
+
+    # Create first key -> start # WORKING
+    first_key = []
+    for i in range(0, num - 1):
+        first_key.append(None)
+    first_key.append("*START*")
+    first_key = tuple(first_key)
+
+    # Append first key
+    model[first_key] = DictionaryHistogram()
 
     for sentence in iterable:
 
-        previousWord = None
+        previous_words = []
+        for i in range(0, num - 1):
+            previous_words.append(None)
+        previous_words.append("*START*")
+
         for index, word in enumerate(sentence):
 
-            # Check if word is in model, if not, create new dictogram
-            if (previousWord, word) not in model:
-                model[(previousWord, word)] = DictionaryHistogram()
+            current_key = tuple(previous_words)
 
-            # Check if word is end or start
-            if (index == len(sentence)-1):
-                model[(previousWord, word)].insert("*STOP*")
-                break
-            elif(index == 0):
-                model[(previousWord, "*START*")].insert(word)
+            if model.get(current_key) is not None:
+                model[current_key].insert(word)
+            else:
+                model[current_key] = DictionaryHistogram()
+                model[current_key].insert(word)
 
-            # Add the next thing to it!
-            model[(previousWord, word)].insert(sentence[index + 1])
-            previousWord = word
+            previous_words.pop(0)
+            previous_words.append(word)
+
+        current_key = tuple(previous_words)
+        if model.get(current_key) is None:
+            model[current_key] = DictionaryHistogram()
+        model[current_key].insert("*STOP*")
 
     return model
 
-def walk_markov_chain(model):
+def walk_markov_chain(model, num):
+
     words = []
 
-    previousWord = None
-    word = (None, "*START*")
+    # Create first key -> start # WORKING
+    previous_words = []
+    for i in range(0, num - 1):
+        previous_words.append(None)
+    previous_words.append("*START*")
+
+    current_key = tuple(previous_words)
+
     while True:
-        word = model[word].get_random_word()
+        word = model[current_key].get_random_word()
         if word == "*STOP*":
             break
         words.append(word)
-        word2 = (previousWord, word)
-        previousWord = word
-        word = word2
+
+        previous_words.pop(0)
+        previous_words.append(word)
+        current_key = tuple(previous_words)
 
     return words
 
@@ -49,9 +72,8 @@ def walk_markov_chain(model):
 if __name__ == '__main__':
     sentences = clean_up_text.return_sentences()
     tokens = tokenize_text.tokenize(sentences)
-    model = create_model(tokens)
-
-    words = walk_markov_chain(model)
+    model = create_model(tokens, 3)
+    words = walk_markov_chain(model, 3)
     print(' '.join(words))
 
 
