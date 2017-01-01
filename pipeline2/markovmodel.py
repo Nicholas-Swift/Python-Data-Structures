@@ -9,7 +9,7 @@ class MarkovModel(dict):
         """Initialize this histogram as a new list; update with given items"""
         super(MarkovModel, self).__init__()
 
-        self.order = 2
+        self.order = order
 
         if iterable:
             self.update(iterable)
@@ -97,7 +97,6 @@ def test_markov_model():
 
     mm = MarkovModel(sentences, 1)
     words = mm.walk()
-    print(mm)
     print ' '.join(words)
 
 
