@@ -17,6 +17,9 @@ class LinkedList(object):
 
     def __init__(self, iterable=None):
         """Initialize this linked list; append the given items, if any"""
+        # Best: Omega(1)
+        # Worst: O(n) (iterable size)
+
         self.head = None
         self.tail = None
         self.size = 0
@@ -30,6 +33,9 @@ class LinkedList(object):
 
     def __contains__(self, item):
         """Does it contain the item"""
+        # Best: Omega(1)
+        # Worst: O(n) (init size)
+
         current = self.head
         while current is not None:
             if current.data == item:
@@ -39,6 +45,9 @@ class LinkedList(object):
 
     def __iter__(self):
         """Iterate through the linked list"""
+        # Best: Omega(1)
+        # Worst: O(1)
+
         current = self.head
         while current is not None:
             yield current.data
@@ -46,10 +55,16 @@ class LinkedList(object):
 
     def __nonzero__(self):
         """Will the linked list equate to false"""
+        # Best: Omega(1)
+        # Worst: O(1)
+
         return not self.is_empty()
 
     def as_list(self):
         """Return a list of all items in this linked list"""
+        # Best: Omega(1)
+        # Worst: O(n)
+
         result = []
         current = self.head
         while current is not None:
@@ -58,14 +73,23 @@ class LinkedList(object):
         return result
 
     def is_empty(self):
+        # Best: Omega(1)
+        # Worst: O(1)
+
         return self.head == None
 
     def length(self):
         """Return the length of this linked list"""
+        # Best: Omega(1)
+        # Worst: O(1)
+
         return self.size
 
     def append(self, item):
         """Insert the given item at the tail of this linked list"""
+        # Best: Omega(1)
+        # Worst: O(1)
+
         node = Node(item)
 
         if self.is_empty():
@@ -78,6 +102,9 @@ class LinkedList(object):
 
     def prepend(self, item):
         """Insert the given item at the head of this linked list"""
+        # Best: Omega(1)
+        # Worst: O(1)
+
         node = Node(item)
 
         if self.is_empty():
@@ -91,6 +118,9 @@ class LinkedList(object):
 
     def find(self, quality):
         """Return an item from this linked list satisfying the given quality"""
+        # Best: Omega(1)
+        # Worst: O(n)
+
         current = self.head
         while current is not None:
             if quality(current.data) is True:
@@ -98,8 +128,23 @@ class LinkedList(object):
             current = current.next
         return None
 
+    def find_item(self, item):
+        """Return an item from this linked list with item"""
+        # Best: Omega(1)
+        # Worst: O(n)
+
+        current = self.head
+        while current is not None:
+            if current.data == item:
+                return current.data
+            current = current.next
+        return None
+
     def replace(self, quality, item):
         """Replace an item from this linked list satisfying the given quality"""
+        # Best: Omega(1)
+        # Worst: O(n)
+
         current = self.head
         while current is not None:
             if quality(current.data) is True:
@@ -109,6 +154,9 @@ class LinkedList(object):
 
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError"""
+        # Best: Omega(1)
+        # Worst: O(n)
+
         if self.head is None:
             raise ValueError('Cannot delete from empty Linked List')
 

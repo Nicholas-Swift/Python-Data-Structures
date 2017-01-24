@@ -1,9 +1,25 @@
+# A module to clean up and tokenize text
+
 import re
 
-def read_file():
+
+SUBREDDIT_REGEX = "\/?r\/[\A-z0-9-]+" # Get /r/subreddit and r/subreddit
+USERNAME_REGEX = "\/?u\/[\A-z0-9-]+" # Get /u/username and u/username
+MULTIPLE_ENDS_REGEX = "[.!?;]{2,}" # Get ...., !!, ?????, etc.
+MULTIPLE_SPACES_REGEX = '[\s]{2,}' # Get 2 or more spaces
+
+SMILEYS = [':-)', ':-]', ':-3', ':->', '8-)', ':-}',
+            ':)', ':]', ':3', ':>', '8)', ':}',
+            ':-D', '8-D', 'xD', ':X']
+
+" ".replace("Edit:", " ") # Remove edits
+" ".replace("\n", " ") # Remove new lines
+CHARS_TO_DELETE = [':)("#*&-><@^,~[]']
+
+def _read_file(filename):
     """Return the text from a given file"""
-    old_file = open('text.txt', 'r')
-    text = old_file.read()
+    text_file = open(filename, 'r')
+    text = text_file.read()
     return text
 
 def _get_sentences(text):
@@ -17,9 +33,16 @@ def _get_sentences(text):
 
     return sentences
 
-def sanitize_text(text):
+def _sanitize_text(text):
     """Return a sanitized version of the given text"""
-    chars_to_delete = ',-"*@#%^()'
+
+    # Turn links into "LINK"
+    urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', url)
+    for url in urls:
+        text = text.replace(url, "LINK_HERE")
+
+    # Delete and replace
+    #chars_to_delete = ',-"*@#%^()'
 
     new_text = text
     for char in chars_to_delete:
@@ -59,7 +82,8 @@ def tokenizefile(filename):
     text = cleanupfile(filename)
     return tokenizetext(text)
 
+
 if __name__ == '__main__':
-    print("Please use this as a module")
+    print("WOW")
 
     

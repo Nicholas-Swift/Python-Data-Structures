@@ -4,9 +4,12 @@ import os
 from flask import Flask, request
 from markovmodel import MarkovModel
 import cleanuptext
-import reddit_getter2
 
-text = '.'.join(reddit_getter2.main())
+# Open file
+file = open('text.txt')
+
+# Create models
+text = file.read()
 tokens = cleanuptext.tokenizetext(text)
 model = MarkovModel(tokens, 3)
 
